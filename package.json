@@ -1,0 +1,23 @@
+{
+  "name": "silex-graphql-optimizer",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "lib/mock.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "author": "@lexoyo",
+  "license": "AGPL-3.0",
+  "description": "Drop-in replacement for `fetch` that optimizes GraphQL requests",
+  "devDependencies": {
+    "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "graphql": "^16.11.0",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0"
+  }
+}
