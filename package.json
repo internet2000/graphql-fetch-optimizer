@@ -1,5 +1,5 @@
 {
-  "name": "silex-graphql-optimizer",
+  "name": "graphql-fetch-optimizer",
   "version": "1.0.1",
   "type": "module",
   "main": "lib/mock.js",
