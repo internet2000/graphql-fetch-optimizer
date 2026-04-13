@@ -9,6 +9,10 @@
   "scripts": {
     "test": "vitest run"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/internet2000/graphql-fetch-optimizer.git"
+  },
   "author": "@lexoyo",
   "license": "AGPL-3.0",
   "description": "Drop-in replacement for `fetch` that optimizes GraphQL requests",
