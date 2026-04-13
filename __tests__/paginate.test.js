@@ -49,4 +49,38 @@ describe('fetchRootPaginatedFields()', () => {
     expect(result.data.categories.nodes).toEqual([{ id: 'catA' }])
     expect(result.data.categories.pageInfo).toEqual({ hasNextPage: false })
   })
+
+  it('throws on GraphQL errors instead of looping infinitely', async () => {
+    const cursorVars = { posts: 'after_0' }
+
+    const fetchGraphQL = async () => ({
+      errors: [{ message: 'Field "translation" argument "language" of type "LanguageCodeEnum!" is required' }],
+      data: null
+    })
+
+    await expect(
+      fetchRootPaginatedFields('ignored', cursorVars, fetchGraphQL)
+    ).rejects.toThrow('GraphQL error during pagination')
+  })
+
+  it('throws when response has no data', async () => {
+    const cursorVars = { posts: 'after_0' }
+
+    const fetchGraphQL = async () => ({ data: null })
+
+    await expect(
+      fetchRootPaginatedFields('ignored', cursorVars, fetchGraphQL)
+    ).rejects.toThrow('GraphQL response has no data')
+  })
+
+  it('marks field as finished when nodes are missing', async () => {
+    const cursorVars = { posts: 'after_0' }
+
+    const fetchGraphQL = async () => ({
+      data: { posts: { unexpected: 'shape' } }
+    })
+
+    const result = await fetchRootPaginatedFields('ignored', cursorVars, fetchGraphQL)
+    expect(result.data.posts.nodes).toEqual([])
+  })
 })
