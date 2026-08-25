@@ -33,7 +33,7 @@ const res = await patchedFetch('https://cms.example.com/graphql', {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     query: `{
-      menus(first: "auto") {
+      menus(first: auto) {
         nodes { id label }
         pageInfo { hasNextPage endCursor }
       }
@@ -69,7 +69,8 @@ The returned function is a fully-compatible `fetch` replacement. You can assign 
 
 ## Limitations
 
-* Only root-level fields with `first: "auto"` are paginated
+* Only root-level fields with `first: auto` are paginated (unquoted: it is matched
+  as a GraphQL enum value, so `first: "auto"` does **not** trigger pagination)
 * Your schema must return `nodes[]` and `pageInfo { hasNextPage, endCursor }`
 * Nested pagination is not supported
 
@@ -78,7 +79,7 @@ The returned function is a fully-compatible `fetch` replacement. You can assign 
 Use the core pagination logic manually:
 
 ```js
-import { fetchRootPaginatedFields } from 'graphql-fetch-optimizer/paginate.js'
+import { fetchRootPaginatedFields } from 'graphql-fetch-optimizer/lib/paginate.js'
 
 const result = await fetchRootPaginatedFields(query, cursorVars, (query, variables) =>
   fetch('https://cms.example.com/graphql', {
